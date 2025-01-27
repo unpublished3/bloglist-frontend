@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
+import Notification from "./components/Notification";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import "./index.css";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -12,6 +14,7 @@ const App = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+  const [notification, setNotification] = useState({});
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -33,8 +36,12 @@ const App = () => {
       setUser(user);
       window.localStorage.setItem("loggedInUser", JSON.stringify(user));
       blogService.setToken(user.token);
+      sendNotification("Login successful");
+      setUsername("");
+      setPassword("");
     } catch (e) {
       console.error(e);
+      sendNotification("Incorrect username or password", "red");
     }
   };
 
@@ -47,10 +54,18 @@ const App = () => {
     e.preventDefault();
     console.log(":)");
     const blog = await blogService.creteNew({ title, author, url });
-    setBlogs(blogs.concat(blog))
+    setBlogs(blogs.concat(blog));
+    sendNotification(`Successfully created blog ${blog.title}`, "green");
     setTitle("");
     setAuthor("");
     setUrl("");
+  };
+
+  const sendNotification = (text, type) => {
+    setNotification({ text, type });
+    setTimeout(() => {
+      setNotification("");
+    }, 3000);
   };
 
   const blogForm = () => {
@@ -92,6 +107,7 @@ const App = () => {
     return (
       <div>
         <h2>BlogList</h2>
+        <Notification notification={notification} />
         <span>{user.name} logged in</span> &nbsp;
         <button onClick={handleLogout}>Logout</button>
         {blogForm()}
@@ -107,6 +123,7 @@ const App = () => {
     return (
       <div>
         <h2>Login</h2>
+        <Notification notification={notification} />
         <form onSubmit={handleLogin}>
           <div>
             Username
@@ -134,7 +151,7 @@ const App = () => {
     );
   };
 
-  return user ? blogList() : loginForm();
+  return <div>{user ? blogList() : loginForm()}</div>;
 };
 
 export default App;
