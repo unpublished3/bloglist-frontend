@@ -9,14 +9,32 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    blogService.getAll().then((blogs) => setBlogs(blogs));
+  }, []);
+
+  useEffect(() => {
+    const loggedInUserString = window.localStorage.getItem("loggedInUser");
+    if (loggedInUserString) {
+      const loggedInUser = JSON.parse(loggedInUserString);
+      setUser(loggedInUser);
+    }
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const user = await loginService.login({ username, password });
       setUser(user);
+      window.localStorage.setItem("loggedInUser", JSON.stringify(user));
     } catch (e) {
       console.error(e);
     }
+  };
+
+  const handleLogout = async (e) => {
+    setUser(null);
+    window.localStorage.removeItem("loggedInUser");
   };
 
   const blogList = () => {
@@ -24,6 +42,7 @@ const App = () => {
       <div>
         <h2>Blogs</h2>
         <div>{user.name} logged in</div>
+        <button onClick={handleLogout}>Logout</button>
         {blogs.map((blog) => (
           <Blog key={blog.id} blog={blog} />
         ))}
@@ -61,10 +80,6 @@ const App = () => {
       </div>
     );
   };
-
-  useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
 
   return user ? blogList() : loginForm();
 };
