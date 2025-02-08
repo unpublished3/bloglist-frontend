@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef } from "react";
+
 import Blog from "./components/Blog";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
+import LoginForm from "./components/LoginForm";
+
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import "./index.css";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-
   const [notification, setNotification] = useState({});
 
   useEffect(() => {
@@ -28,16 +28,13 @@ const App = () => {
     }
   }, []);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const loginUser = async (userObject) => {
     try {
-      const user = await loginService.login({ username, password });
+      const user = await loginService.login(userObject);
       setUser(user);
       window.localStorage.setItem("loggedInUser", JSON.stringify(user));
       blogService.setToken(user.token);
       sendNotification("Login successful");
-      setUsername("");
-      setPassword("");
     } catch (e) {
       console.error(e);
       sendNotification("Incorrect username or password", "red");
@@ -83,39 +80,15 @@ const App = () => {
     );
   };
 
-  const loginForm = () => {
-    return (
-      <div>
-        <h2>Login</h2>
-        <Notification notification={notification} />
-        <form onSubmit={handleLogin}>
-          <div>
-            Username
-            <input
-              type="text"
-              name="username"
-              value={username}
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-
-          <div>
-            Password
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-
-          <button type="submit">Login</button>
-        </form>
-      </div>
-    );
-  };
-
-  return <div>{user ? blogList() : loginForm()}</div>;
+  return (
+    <div>
+      {user ? (
+        blogList()
+      ) : (
+        <LoginForm loginUser={loginUser} notification={notification} />
+      )}
+    </div>
+  );
 };
 
 export default App;
