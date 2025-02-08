@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import "./index.css";
@@ -50,9 +51,11 @@ const App = () => {
     window.localStorage.removeItem("loggedInUser");
   };
 
+  const newBlogRef = useRef();
+
   const createNewBlog = async (e) => {
     e.preventDefault();
-    console.log(":)");
+    newBlogRef.current.toggleVisibility();
     const blog = await blogService.creteNew({ title, author, url });
     setBlogs(blogs.concat(blog));
     sendNotification(`Successfully created blog ${blog.title}`, "green");
@@ -110,7 +113,9 @@ const App = () => {
         <Notification notification={notification} />
         <span>{user.name} logged in</span> &nbsp;
         <button onClick={handleLogout}>Logout</button>
-        {blogForm()}
+        <Togglable buttonLabel="New Blog" ref={newBlogRef}>
+          {blogForm()}
+        </Togglable>
         <h3>Blogs</h3>
         {blogs.map((blog) => (
           <Blog key={blog.id} blog={blog} />
