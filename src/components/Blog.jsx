@@ -1,7 +1,42 @@
-const Blog = ({ blog }) => (
-  <p>
-    <span style={{fontWeight: "bold"}}>{blog.title}</span> by {blog.author}
-  </p>  
-)
+import { useState } from "react";
 
-export default Blog
+const Blog = ({ blog }) => {
+  const [completelyVisible, setCompleteVisible] = useState(false);
+
+  const toggleVisibility = () => setCompleteVisible(!completelyVisible);
+
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: "solid",
+    borderWidth: 1,
+    marginBottom: 5,
+    display: "inline-block",
+    padding: 4,
+  };
+
+  const informationStyle = {
+    display: completelyVisible ? "" : "none",
+    margin: 1,
+  };
+
+  return (
+    <>
+      <div style={blogStyle}>
+        <span style={{ fontWeight: "bold" }}>{blog.title}</span> &nbsp;
+        <button onClick={toggleVisibility}>
+          {!completelyVisible ? "View " : "Hide"}
+        </button>
+        <p style={informationStyle}>Url: {blog.url}</p>
+        <p style={informationStyle}>
+          Likes: {blog.likes} &nbsp;
+          <button>Like</button>
+        </p>
+        <p style={informationStyle}>Author: {blog.author}</p>
+      </div>
+      <br />
+    </>
+  );
+};
+
+export default Blog;
