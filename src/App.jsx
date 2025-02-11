@@ -55,6 +55,13 @@ const App = () => {
     sendNotification(`Successfully created blog ${blog.title}`, "green");
   };
 
+  const likeBlog = async (blogObject) => {
+    const updatedBlog = await blogService.like(blogObject.id, blogObject);
+    setBlogs(
+      blogs.map((blog) => (blog.id !== updatedBlog.id ? blog : updatedBlog))
+    );
+  };
+
   const sendNotification = (text, type) => {
     setNotification({ text, type });
     setTimeout(() => {
@@ -74,7 +81,7 @@ const App = () => {
         </Togglable>
         <h3>Blogs</h3>
         {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
         ))}
       </div>
     );

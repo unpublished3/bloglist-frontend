@@ -19,5 +19,11 @@ const creteNew = async (newBlog) => {
   return response.data
 }
 
+const like = async (id, updatedBlog) => {
+  const config = { headers: {Authorization: token} }
 
-export default { getAll, setToken, creteNew }
+  const response = await axios.put(`${baseUrl}/${id}`, updatedBlog, config)
+  return response.data
+}
+
+export default { getAll, setToken, creteNew, like }

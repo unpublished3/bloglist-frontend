@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, likeBlog }) => {
   const [completelyVisible, setCompleteVisible] = useState(false);
 
   const toggleVisibility = () => setCompleteVisible(!completelyVisible);
@@ -20,6 +20,11 @@ const Blog = ({ blog }) => {
     margin: 1,
   };
 
+  const handleLikes = (e) => {
+    e.preventDefault();
+    likeBlog({...blog, likes: blog.likes + 1})
+  }
+
   return (
     <>
       <div style={blogStyle}>
@@ -30,7 +35,7 @@ const Blog = ({ blog }) => {
         <p style={informationStyle}>Url: {blog.url}</p>
         <p style={informationStyle}>
           Likes: {blog.likes} &nbsp;
-          <button>Like</button>
+          <button onClick={handleLikes}>Like</button>
         </p>
         <p style={informationStyle}>Author: {blog.author}</p>
       </div>
