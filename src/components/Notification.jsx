@@ -5,7 +5,7 @@ const Notification = ({ notification }) => {
     </p>
   ) : (
     <></>
-  );
-};
+  )
+}
 
-export default Notification;
+export default Notification

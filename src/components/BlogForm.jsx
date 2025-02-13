@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useState } from "react"
 
 const BlogForm = ({ addBlog }) => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState("")
+  const [author, setAuthor] = useState("")
+  const [url, setUrl] = useState("")
 
   const createNewBlog = async (e) => {
-    e.preventDefault();
-    addBlog({title, author, url})
-    setTitle("");
-    setAuthor("");
-    setUrl("");
-  };
+    e.preventDefault()
+    addBlog({ title, author, url })
+    setTitle("")
+    setAuthor("")
+    setUrl("")
+  }
 
   return (
     <div>
@@ -44,7 +44,7 @@ const BlogForm = ({ addBlog }) => {
         <button>Create</button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default BlogForm;
+export default BlogForm

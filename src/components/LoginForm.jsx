@@ -1,16 +1,16 @@
-import { useState } from "react";
-import Notification from "./Notification";
+import { useState } from "react"
+import Notification from "./Notification"
 
 const LoginForm = ({ loginUser, notification }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    loginUser({ username, password });
-    setUsername("");
-    setPassword("");
-  };
+    e.preventDefault()
+    loginUser({ username, password })
+    setUsername("")
+    setPassword("")
+  }
 
   return (
     <div>
@@ -40,7 +40,7 @@ const LoginForm = ({ loginUser, notification }) => {
         <button type="submit">Login</button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

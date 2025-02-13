@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState } from "react"
 
 const Blog = ({ blog, likeBlog, deleteBlog, username }) => {
-  const [completelyVisible, setCompleteVisible] = useState(false);
+  const [completelyVisible, setCompleteVisible] = useState(false)
 
-  const toggleVisibility = () => setCompleteVisible(!completelyVisible);
+  const toggleVisibility = () => setCompleteVisible(!completelyVisible)
 
   const blogStyle = {
     paddingTop: 10,
@@ -13,26 +13,26 @@ const Blog = ({ blog, likeBlog, deleteBlog, username }) => {
     marginBottom: 5,
     display: "inline-block",
     padding: 4,
-  };
+  }
 
   const informationStyle = {
     display: completelyVisible ? "" : "none",
     margin: 1,
-  };
+  }
 
   const showDelete = {
     display: username === blog.user.username ? "" : "none",
-  };
+  }
 
   const handleLikes = (e) => {
-    e.preventDefault();
-    likeBlog({ ...blog, likes: blog.likes + 1 });
-  };
+    e.preventDefault()
+    likeBlog({ ...blog, likes: blog.likes + 1 })
+  }
 
   const onDelete = (e) => {
-    e.preventDefault();
-    if (window.confirm(`Delete ${blog.title}?`)) deleteBlog(blog.id);
-  };
+    e.preventDefault()
+    if (window.confirm(`Delete ${blog.title}?`)) deleteBlog(blog.id)
+  }
 
   return (
     <>
@@ -55,7 +55,7 @@ const Blog = ({ blog, likeBlog, deleteBlog, username }) => {
       </div>
       <br />
     </>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog

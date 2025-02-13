@@ -1,5 +1,5 @@
-import axios from 'axios'
-const baseUrl = '/api/blogs'
+import axios from "axios"
+const baseUrl = "/api/blogs"
 
 let token = null
 
@@ -20,14 +20,14 @@ const creteNew = async (newBlog) => {
 }
 
 const like = async (id, updatedBlog) => {
-  const config = { headers: {Authorization: token} }
+  const config = { headers: { Authorization: token } }
 
   const response = await axios.put(`${baseUrl}/${id}`, updatedBlog, config)
   return response.data
 }
 
 const deleteBlog = async (id) => {
-  const config = { headers: {Authorization: token} }
+  const config = { headers: { Authorization: token } }
 
   const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response.data
