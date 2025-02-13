@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Blog = ({ blog, likeBlog }) => {
+const Blog = ({ blog, likeBlog, deleteBlog, username }) => {
   const [completelyVisible, setCompleteVisible] = useState(false);
 
   const toggleVisibility = () => setCompleteVisible(!completelyVisible);
@@ -20,25 +20,38 @@ const Blog = ({ blog, likeBlog }) => {
     margin: 1,
   };
 
+  const showDelete = {
+    display: username === blog.user.username ? "" : "none",
+  };
+
   const handleLikes = (e) => {
     e.preventDefault();
-    likeBlog({...blog, likes: blog.likes + 1})
-  }
+    likeBlog({ ...blog, likes: blog.likes + 1 });
+  };
+
+  const onDelete = (e) => {
+    e.preventDefault();
+    if (window.confirm(`Delete ${blog.title}?`)) deleteBlog(blog.id);
+  };
 
   return (
     <>
       <div style={blogStyle}>
         <span style={{ fontWeight: "bold" }}>{blog.title}</span> &nbsp;
-        Likes: {blog.likes} &nbsp;
         <button onClick={toggleVisibility}>
           {!completelyVisible ? "View " : "Hide"}
         </button>
-        <p style={informationStyle}>Url: {blog.url}</p>
-        <p style={informationStyle}>
-          Likes: {blog.likes} &nbsp;
-          <button onClick={handleLikes}>Like</button>
-        </p>
-        <p style={informationStyle}>Author: {blog.author}</p>
+        <div style={informationStyle}>
+          <p>Url: {blog.url}</p>
+          <p>
+            Likes: {blog.likes} &nbsp;
+            <button onClick={handleLikes}>Like</button>
+          </p>
+          <p>Author: {blog.author}</p>
+          <button style={showDelete} onClick={onDelete}>
+            Delete
+          </button>
+        </div>
       </div>
       <br />
     </>

@@ -68,6 +68,12 @@ const App = () => {
     setBlogs(newBlogs);
   };
 
+  const deleteBlog = async (id) => {
+    console.log(id);
+    await blogService.deleteBlog(id);
+    setBlogs(blogs.filter((blog) => blog.id !== id));
+  };
+
   const sendNotification = (text, type) => {
     setNotification({ text, type });
     setTimeout(() => {
@@ -87,7 +93,13 @@ const App = () => {
         </Togglable>
         <h3>Blogs</h3>
         {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
+          <Blog
+            key={blog.id}
+            blog={blog}
+            likeBlog={likeBlog}
+            deleteBlog={deleteBlog}
+            username={user.username}
+          />
         ))}
       </div>
     );
