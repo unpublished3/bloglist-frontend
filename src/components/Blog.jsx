@@ -29,6 +29,7 @@ const Blog = ({ blog, likeBlog }) => {
     <>
       <div style={blogStyle}>
         <span style={{ fontWeight: "bold" }}>{blog.title}</span> &nbsp;
+        Likes: {blog.likes} &nbsp;
         <button onClick={toggleVisibility}>
           {!completelyVisible ? "View " : "Hide"}
         </button>

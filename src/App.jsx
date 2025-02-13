@@ -16,7 +16,10 @@ const App = () => {
   const [notification, setNotification] = useState({});
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    blogService.getAll().then((blogs) => {
+      blogs.sort((blog1, blog2) => blog2.likes - blog1.likes);
+      setBlogs(blogs);
+    });
   }, []);
 
   useEffect(() => {
@@ -57,9 +60,12 @@ const App = () => {
 
   const likeBlog = async (blogObject) => {
     const updatedBlog = await blogService.like(blogObject.id, blogObject);
-    setBlogs(
-      blogs.map((blog) => (blog.id !== updatedBlog.id ? blog : updatedBlog))
+    let newBlogs = blogs.map((blog) =>
+      blog.id !== updatedBlog.id ? blog : updatedBlog
     );
+    newBlogs.sort((blog1, blog2) => blog2.likes - blog1.likes);
+
+    setBlogs(newBlogs);
   };
 
   const sendNotification = (text, type) => {
