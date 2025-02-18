@@ -37,7 +37,8 @@ const Blog = ({ blog, likeBlog, deleteBlog, username }) => {
   return (
     <>
       <div style={blogStyle}>
-        <span style={{ fontWeight: "bold" }}>{blog.title}</span> &nbsp;
+        <span style={{ fontWeight: "bold" }}>{blog.title}</span>
+        <span> by {blog.author}</span> &nbsp;
         <button onClick={toggleVisibility}>
           {!completelyVisible ? "View " : "Hide"}
         </button>
@@ -47,7 +48,6 @@ const Blog = ({ blog, likeBlog, deleteBlog, username }) => {
             Likes: {blog.likes} &nbsp;
             <button onClick={handleLikes}>Like</button>
           </p>
-          <p>Author: {blog.author}</p>
           <button style={showDelete} onClick={onDelete}>
             Delete
           </button>
